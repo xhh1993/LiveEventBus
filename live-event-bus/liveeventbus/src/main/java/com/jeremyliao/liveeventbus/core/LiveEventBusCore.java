@@ -123,7 +123,11 @@ public final class LiveEventBusCore {
         if (application != null) {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(IpcConst.ACTION);
-            application.registerReceiver(receiver, intentFilter);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE){
+                application.registerReceiver(receiver, intentFilter, Context.RECEIVER_EXPORTED);
+            }else {
+                application.registerReceiver(receiver, intentFilter);
+            }
             isRegisterReceiver = true;
         }
     }
